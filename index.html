@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>東大和高校 3年6組 同窓会 二次会 出欠</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Yomogi&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#2f8f63; --green-deep:#1d5e40; --green-pale:#e3f1ea;
+  --paper:#fbfaf6; --ink:#1c2420; --sub:#6b7570; --line:#e2e5e1;
+  --absent:#8b908d; --absent-pale:#eceeec;
+  --bg:#f4f6f3; --card:#ffffff;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#eef2ef; --sub:#a3aca7; --line:#2c3430; --bg:#121815; --card:#1b2320;
+    --green-pale:#1f3a2d; --absent-pale:#262c29;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#eef2ef; --sub:#a3aca7; --line:#2c3430; --bg:#121815; --card:#1b2320;
+  --green-pale:#1f3a2d; --absent-pale:#262c29;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:520px;margin:0 auto;padding:0 16px 120px}
+
+header{background:var(--green);color:#fff;margin:0 -16px;padding:22px 20px 18px}
+header .school{font-size:13px;font-weight:700;opacity:.85;letter-spacing:.05em}
+header h1{font-family:"Dela Gothic One","Zen Kaku Gothic New",sans-serif;font-weight:400;font-size:26px;line-height:1.25;margin:4px 0 0}
+
+.counts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 8px}
+.count{background:var(--card);border-radius:14px;padding:12px 14px;border:1px solid var(--line)}
+.count .lbl{font-size:13px;color:var(--sub);font-weight:700}
+.count .num{font-family:"Dela Gothic One",sans-serif;font-size:40px;line-height:1.1}
+.count .num small{font-family:"Zen Kaku Gothic New",sans-serif;font-size:15px;font-weight:700;margin-left:2px}
+.count.yes .num{color:var(--green)}
+.count.no .num{color:var(--absent)}
+.budget{font-size:13px;color:var(--sub);margin:0 2px 14px}
+
+.sec{font-size:14px;font-weight:900;margin:20px 2px 8px;color:var(--sub)}
+ul.list{list-style:none;margin:0;padding:0;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.list li{border-top:1px solid var(--line)}
+.list li:first-child{border-top:none}
+.list button{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;cursor:pointer}
+.list button:focus-visible{outline:3px solid var(--green);outline-offset:-3px}
+.list .nm{flex:1;min-width:0}
+.list .oc{font-size:18px;font-weight:700}
+.list .full{font-size:12px;color:var(--sub);margin-top:2px}
+.badge{font-size:13px;font-weight:900;padding:5px 12px;border-radius:999px;white-space:nowrap}
+.badge.wait{background:var(--absent-pale);color:var(--sub)}
+.badge.yes{background:var(--green);color:#fff}
+.badge.no{background:var(--absent-pale);color:var(--absent)}
+.list li.done .oc{color:var(--sub)}
+.empty{padding:18px;text-align:center;color:var(--sub);font-size:14px}
+
+.shops{display:grid;gap:10px}
+.shop{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.shop h3{margin:0;font-size:16px}
+.shop .sh{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.shop .sz{font-size:12px;font-weight:700;color:var(--sub);background:var(--absent-pale);padding:3px 9px;border-radius:999px;white-space:nowrap}
+.shop.fit{border:2px solid var(--green)}
+.shop.fit .sz{background:var(--green);color:#fff}
+.shop p{margin:4px 0 0;font-size:13px;color:var(--sub);line-height:1.6}
+.shop .acts{display:flex;gap:8px;margin-top:10px}
+.shop a{flex:1;text-align:center;text-decoration:none;font-size:14px;font-weight:700;padding:9px;border-radius:10px;border:1px solid var(--green);color:var(--green)}
+.shop .tel{all:unset;box-sizing:border-box;flex:1.4;text-align:center;font-size:14px;font-weight:700;padding:9px;border-radius:10px;background:var(--green);color:#fff;cursor:pointer;user-select:text;-webkit-user-select:text}
+.note{font-size:12px;color:var(--sub);margin:8px 2px 0;line-height:1.6}
+
+.bar{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,var(--bg) 30%)}
+.bar .in{max-width:520px;margin:0 auto;display:flex;gap:10px}
+.btn{all:unset;box-sizing:border-box;text-align:center;font-weight:900;font-size:16px;padding:15px;border-radius:14px;cursor:pointer}
+.btn.main{flex:1;background:var(--ink);color:var(--bg)}
+.btn.sub{background:var(--card);border:1px solid var(--line);color:var(--sub);font-size:14px;padding:15px 14px}
+
+/* Answer sheet */
+.sheet{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;padding:calc(16px + env(safe-area-inset-top,0px)) 20px calc(20px + env(safe-area-inset-bottom,0px));z-index:10}
+.sheet.open{display:flex}
+.sheet .close{align-self:flex-end;all:unset;cursor:pointer;font-size:15px;font-weight:700;color:var(--sub);padding:8px 4px}
+.sheet .who{text-align:center;margin:auto 0 28px}
+.sheet .who .oc{font-family:"Dela Gothic One",sans-serif;font-size:40px;line-height:1.2;word-break:break-all}
+.sheet .who .full{font-size:16px;color:var(--sub);margin-top:6px}
+.sheet .who .now{display:inline-block;margin-top:12px}
+.choices{display:grid;gap:14px;margin-bottom:auto}
+.choice{all:unset;box-sizing:border-box;text-align:center;border-radius:20px;cursor:pointer;padding:34px 10px;font-family:"Dela Gothic One",sans-serif;font-size:40px}
+.choice.yes{background:var(--green);color:#fff}
+.choice.no{background:var(--absent-pale);color:var(--ink)}
+.choice:active{transform:scale(.98)}
+.undo{all:unset;cursor:pointer;text-align:center;color:var(--sub);font-size:14px;font-weight:700;padding:16px;margin-top:8px}
+
+/* Result: yearbook page */
+.result{position:fixed;inset:0;background:#1b2431;display:none;flex-direction:column;align-items:center;overflow-y:auto;padding:calc(18px + env(safe-area-inset-top,0px)) 14px calc(24px + env(safe-area-inset-bottom,0px));z-index:20}
+.result.open{display:flex}
+.album{width:100%;max-width:440px;background:#f6f1e4;color:#2a2a26;border-radius:6px 14px 14px 6px;position:relative;padding:22px 20px 18px 30px;box-shadow:0 18px 40px rgba(0,0,0,.45);font-family:"Zen Kaku Gothic New",serif}
+.album::before{content:"";position:absolute;left:0;top:0;bottom:0;width:12px;border-radius:6px 0 0 6px;background:linear-gradient(90deg,#d9d0b8,#efe8d6)}
+.ahead{display:flex;align-items:center;gap:12px}
+.ball{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d8f3e3 0,#6cc493 22%,#2f8f63 58%,#1d5e40 100%);box-shadow:0 3px 6px rgba(0,0,0,.18)}
+.cls{font-family:Arial,"Helvetica Neue",sans-serif;font-weight:700;color:#2f8f63;font-size:18px}
+.cls span{font-size:44px;line-height:1;margin-left:2px}
+.aschool{margin-top:14px;font-size:13px;font-weight:700;color:#6b665a;letter-spacing:.08em}
+.atitle{font-family:"Dela Gothic One",sans-serif;font-size:26px;margin-top:2px}
+.anum{display:flex;align-items:baseline;gap:4px;margin:6px 0 14px;color:#2f8f63}
+.anum .n{font-family:"Dela Gothic One",sans-serif;font-size:96px;line-height:1}
+.anum .u{font-size:22px;font-weight:900}
+.anum .l{font-size:18px;font-weight:900;color:#2a2a26;margin-left:8px}
+.teacher{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.teacher .tile{width:62px}
+.teacher .cap{font-size:14px;font-weight:700}
+.teacher .cap small{display:block;font-size:11px;color:#6b665a;font-weight:500}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px 10px}
+.tile{aspect-ratio:3/4;background:#3fa776;background:linear-gradient(160deg,#4cb383,#2f8f63);display:flex;align-items:center;justify-content:center;color:#fff;font-family:"Dela Gothic One",sans-serif;font-size:26px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.15)}
+.person .cap{text-align:center;font-size:12px;font-weight:700;margin-top:5px;line-height:1.3;word-break:break-all}
+.afoot{display:flex;justify-content:space-between;gap:8px;margin-top:18px;padding-top:10px;border-top:1px solid #d9d0b8;font-size:12px;color:#6b665a}
+.result .hint{color:#9fb0c4;font-size:13px;margin:14px 0 10px;text-align:center}
+.result .back{all:unset;cursor:pointer;background:#fff;color:#1b2431;font-weight:900;padding:13px 30px;border-radius:12px}
+
+/* Result: blackboard */
+.board{width:100%;max-width:440px;position:relative;border:14px solid #8a5a33;border-bottom-width:30px;border-radius:6px;
+  background:radial-gradient(ellipse at 30% 20%,rgba(255,255,255,.07),transparent 60%),linear-gradient(170deg,#2f5443,#24453a 60%,#1f3d32);
+  box-shadow:inset 0 0 40px rgba(0,0,0,.35),0 18px 40px rgba(0,0,0,.45);
+  color:#f3f1ea;font-family:"Yomogi","Zen Kaku Gothic New",cursive;padding:18px 18px 16px;
+  text-shadow:0 0 1px rgba(255,255,255,.6),0 0 6px rgba(255,255,255,.12)}
+.board::after{content:"";position:absolute;left:-14px;right:-14px;bottom:-30px;height:12px;background:#6e4524;box-shadow:0 2px 0 #5a381d}
+.board .tray{position:absolute;bottom:-26px;left:18%;display:flex;gap:10px;z-index:1}
+.board .tray i{display:block;width:30px;height:7px;border-radius:3px;background:#f6f4ec}
+.board .tray i.y{background:#f3dc6b;width:22px}.board .tray i.p{background:#f2a7b8;width:26px}
+.board .eraser{position:absolute;bottom:-28px;right:16%;width:54px;height:14px;background:linear-gradient(#5c6b8a 55%,#efe9dc 55%);border-radius:2px;z-index:1}
+.bwrap{display:flex;gap:12px}
+.bmain{flex:1;min-width:0}
+.bside{writing-mode:vertical-rl;font-size:16px;border-left:2px dashed rgba(243,241,234,.35);padding-left:8px;display:flex;justify-content:space-between;gap:16px}
+.bside .tcy{text-combine-upright:all;-webkit-text-combine:horizontal}
+.bside b{color:#f3dc6b;font-weight:400}
+.bschool{font-size:15px;opacity:.9}
+.btitle{font-size:30px;margin-top:2px;transform:rotate(-1.5deg);transform-origin:left}
+.bnum{display:flex;align-items:baseline;gap:6px;margin:6px 0 10px}
+.bnum .n{font-size:92px;line-height:1;color:#f3dc6b;position:relative;padding:0 10px}
+.bnum .n::after{content:"";position:absolute;inset:6px -2px -2px -4px;border:3px solid rgba(242,167,184,.85);border-radius:50% 46% 52% 48%;transform:rotate(-6deg)}
+.bnum .u{font-size:26px}
+.bnum .l{font-size:22px;margin-left:8px}
+.bteacher{font-size:18px;margin-bottom:6px;color:#f2a7b8}
+.bnames{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 12px;font-size:21px;line-height:1.5}
+.bnames span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bnames span::before{content:"・";opacity:.7}
+.bnames span:nth-child(3n+2){transform:rotate(-1deg)}
+.bnames span:nth-child(4n+3){transform:rotate(1deg)}
+.bfoot{margin-top:12px;font-size:15px;opacity:.85;display:flex;justify-content:space-between}
+.styleSw{display:flex;gap:8px;margin-top:14px}
+.styleSw button{all:unset;cursor:pointer;color:#cfd8e3;border:1px solid #4a5768;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700}
+.styleSw button.on{background:#cfd8e3;color:#1b2431}
+.result .album,.result .board{display:none}
+.result.v-album .album,.result.v-board .board{display:block}
+.result.v-board .board{margin-bottom:22px}
+
+@media (prefers-reduced-motion:no-preference){
+  .list li.moved{animation:flash .6s ease}
+  @keyframes flash{from{background:var(--green-pale)}to{background:transparent}}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="school">東大和高校 3年6組</div>
+    <h1>同窓会 二次会 出欠</h1>
+  </header>
+
+  <div class="counts">
+    <div class="count yes"><div class="lbl">出席</div><div class="num"><span id="cYes">0</span><small>名</small></div></div>
+    <div class="count no"><div class="lbl">欠席・未回答</div><div class="num"><span id="cNo">18</span><small>名</small></div></div>
+  </div>
+  <div class="budget" id="budget"></div>
+
+  <div class="sec" id="secList">名前をタップして回答</div>
+  <ul class="list" id="list"></ul>
+
+  <div class="sec">二次会のお店候補（立川駅・1人3,000円目安）</div>
+  <p class="note" id="shopHead" style="margin:0 2px 8px;font-weight:700"></p>
+  <div class="shops" id="shops"></div>
+  <p class="note">人数の向き不向きは口コミや店の規模からの目安です。電話番号はタップでコピーされるので、電話アプリに貼り付けてかけてください（地図からもかけられます）。</p>
+</div>
+
+<div class="bar"><div class="in">
+  <button class="btn sub" id="resetBtn">リセット</button>
+  <button class="btn main" id="resultBtn">結果を見る</button>
+</div></div>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true">
+  <button class="close" id="sheetClose">閉じる ✕</button>
+  <div class="who">
+    <div class="oc" id="sOc"></div>
+    <div class="full" id="sFull"></div>
+    <div id="sNow"></div>
+  </div>
+  <div class="choices">
+    <button class="choice yes" data-v="yes">出席</button>
+    <button class="choice no" data-v="no">欠席</button>
+  </div>
+  <button class="undo" id="undoBtn">未回答に戻す</button>
+</div>
+
+<div class="result v-board" id="result">
+  <div class="album">
+    <div class="ahead"><div class="ball"></div><div class="cls">Class<span>6</span></div></div>
+    <div class="aschool">東大和高校 3年6組 同窓会</div>
+    <div class="atitle">二次会 出席者名簿</div>
+    <div class="anum"><span class="n" id="rNum">0</span><span class="u">名</span><span class="l">出席</span></div>
+    <div class="teacher" id="rTeacher"></div>
+    <div class="grid" id="rGrid"></div>
+    <div class="afoot"><span>2026.11.21 SAT ／ 立川</span><span id="rRest"></span></div>
+  </div>
+  <div class="board">
+    <div class="bwrap">
+      <div class="bmain">
+        <div class="bschool">東大和高校 3年6組 同窓会</div>
+        <div class="btitle">二次会 出席者</div>
+        <div class="bnum"><span class="n" id="bNum">0</span><span class="u">名</span><span class="l">出席！</span></div>
+        <div class="bteacher" id="bTeacher"></div>
+        <div class="bnames" id="bNames"></div>
+        <div class="bfoot"><span>＠立川</span></div>
+      </div>
+      <div class="bside"><span><span class="tcy">11</span>月<span class="tcy">21</span>日（土）</span><span>日直 <b>ひがし</b></span></div>
+    </div>
+    <div class="tray"><i></i><i class="y"></i><i class="p"></i></div>
+    <div class="eraser"></div>
+  </div>
+  <div class="hint">このままスクショしてオープンチャットへ</div>
+  <button class="back" id="resultClose">戻る</button>
+  <div class="styleSw"><button data-s="board" class="on">黒板風</button><button data-s="album">卒アル風</button></div>
+</div>
+
+<script>
+const MEMBERS = [
+  ["いいだ","飯田 竜也"],["いーつか","飯束 圭太"],["いしぐろ","石黒 愛美"],["ぴんく","石塚 沙緒理"],
+  ["おくの","奥野 拓真"],["木村彩","木村 彩"],["クマクラ","熊倉 裕"],["さいとう","斉藤 望"],
+  ["さえぐさ","三枝 正平"],["くらと","菅野 蔵人"],["住吉良太","住吉 良太"],["ひがし（幹事）","東 優人"],
+  ["りさ","平井 莉紗"],["まりな(ﾏﾘｵ)","福島 真理奈"],["干場","干場 祐子"],["みやうち","宮内 梢"],
+  ["宮谷","宮谷 涼子"],["やなぎ","柳 由妃 先生"]
+].map((m,i)=>({id:i,oc:m[0],full:m[1]}));
+
+const SHOPS = [
+  {n:"おすすめ屋 立川店",min:8,max:30,size:"大人数向き",d:"南口・柴崎町。食べ飲み放題2時間が2,000円台と安い。人気なので要予約。〜23:15",tel:"03-6625-5473",q:"Osusumeya Tachikawaten",pid:"ChIJp1aMfa3hGGARpYJSER9vr7Q"},
+  {n:"鳥鉄 立川店",min:5,max:15,size:"中人数向き",d:"北口・曙町。焼き鳥メインで軽く飲むのに向く。お通し約350円。〜24:00",tel:"042-595-7735",q:"TORITETSU Tachikawaten",pid:"ChIJ4eM2oXrhGGARsrg3SaRLvuw"},
+  {n:"城内酒場（曙町）",min:5,max:12,size:"中人数向き",d:"北口・曙町。レトロな大衆酒場で安め。喫煙可。〜23:30",tel:"042-521-7779",q:"izakaya akebonocho zyounaisakaba",pid:"ChIJBSRh9fzhGGARbEmJCOShA18"},
+  {n:"個室居酒屋 issa",min:4,max:12,size:"中人数・個室",d:"北口・曙町のビル8F。個室で落ち着いて話せる。単品なら3,000円前後に収まる。〜23:30",tel:"042-540-2080",q:"kositu izakaya issa Tachikawa",pid:"ChIJRSeopHDhGGARsQ2lArzFOXY"},
+  {n:"BAR PEP",min:2,max:8,size:"少人数向き",d:"南口徒歩2分のビル10F。夜景のルーフトップバー。少し落ち着きたい時に。〜24:00",tel:"042-512-7705",q:"BAR PEP Tachikawa",pid:"ChIJp3rtMQDhGGARUi70f6E2t1E"},
+  {n:"BAR Zolddich",min:2,max:5,size:"少人数向き",d:"北口・曙町。カクテルが評判の落ち着いたバー。席料あり。〜25:00",tel:"042-527-1616",q:"BAR Zolddich Tachikawa",pid:"ChIJowZYNGXhGGAREM9pH0lPyGQ"}
+];
+
+const KEY = "yamato36-nijikai-v1";
+let state = {ans:{}, order:[]}; // ans[id] = "yes"|"no"; order = answered ids in answer order
+try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s && s.ans) state = s; }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+
+const $ = id => document.getElementById(id);
+let current = null, lastMoved = null;
+
+function render(){
+  const waiting = MEMBERS.filter(m=>!state.ans[m.id]);
+  const done = state.order.filter(id=>state.ans[id]).map(id=>MEMBERS[id]);
+  const yes = MEMBERS.filter(m=>state.ans[m.id]==="yes");
+  $("cYes").textContent = yes.length;
+  $("cNo").textContent = MEMBERS.length - yes.length;
+  $("budget").textContent = yes.length ? `お店の予算目安：${yes.length}名 × 3,000円 ＝ ${(yes.length*3000).toLocaleString()}円` : "";
+  $("secList").textContent = waiting.length ? `未回答 ${waiting.length}名（タップして回答）` : "全員回答済み";
+
+  const ul = $("list"); ul.innerHTML = "";
+  [...waiting, ...done].forEach(m=>{
+    const a = state.ans[m.id];
+    const li = document.createElement("li");
+    if(a) li.className = "done";
+    if(m.id===lastMoved) li.classList.add("moved");
+    li.innerHTML = `<button><div class="nm"><div class="oc"></div><div class="full"></div></div><span class="badge ${a||"wait"}">${a==="yes"?"出席":a==="no"?"欠席":"未回答"}</span></button>`;
+    li.querySelector(".oc").textContent = m.oc;
+    li.querySelector(".full").textContent = m.full;
+    li.querySelector("button").onclick = ()=>openSheet(m);
+    ul.appendChild(li);
+  });
+  lastMoved = null;
+  renderShops(yes.length);
+}
+
+function openSheet(m){
+  current = m;
+  $("sOc").textContent = m.oc;
+  $("sFull").textContent = m.full;
+  const a = state.ans[m.id];
+  $("sNow").innerHTML = a ? `<span class="badge ${a} now">今：${a==="yes"?"出席":"欠席"}</span>` : "";
+  $("undoBtn").style.display = a ? "block" : "none";
+  $("sheet").classList.add("open");
+}
+function closeSheet(){ $("sheet").classList.remove("open"); current=null; }
+
+document.querySelectorAll(".choice").forEach(b=>b.onclick=()=>{
+  if(!current) return;
+  const id = current.id;
+  state.ans[id] = b.dataset.v;
+  state.order = state.order.filter(x=>x!==id); state.order.push(id);
+  lastMoved = id; save(); closeSheet(); render();
+});
+$("undoBtn").onclick = ()=>{
+  if(!current) return;
+  delete state.ans[current.id];
+  state.order = state.order.filter(x=>x!==current.id);
+  save(); closeSheet(); render();
+};
+$("sheetClose").onclick = closeSheet;
+
+$("resultBtn").onclick = ()=>{
+  const yes = state.order.filter(id=>state.ans[id]==="yes").map(id=>MEMBERS[id]);
+  const TEACHER = 17;
+  $("rNum").textContent = yes.length;
+  const t = $("rTeacher"); t.innerHTML = "";
+  if(yes.some(m=>m.id===TEACHER)){
+    t.innerHTML = '<div class="tile">柳</div><div class="cap">担任 やなぎ先生<small>柳 由妃 先生</small></div>';
+  }
+  const g = $("rGrid"); g.innerHTML = "";
+  const students = yes.filter(m=>m.id!==TEACHER);
+  if(!yes.length) g.innerHTML = '<span style="grid-column:1/-1;color:#6b665a;font-size:14px">まだ出席者がいません</span>';
+  students.forEach(m=>{
+    const d=document.createElement("div"); d.className="person";
+    const name=m.oc.replace(/（幹事）/,"");
+    d.innerHTML='<div class="tile"></div><div class="cap"></div>';
+    d.querySelector(".tile").textContent=[...name][0];
+    d.querySelector(".cap").textContent=m.oc;
+    g.appendChild(d);
+  });
+  $("rRest").textContent = `欠席・未回答 ${MEMBERS.length-yes.length}名`;
+  // blackboard
+  $("bNum").textContent = yes.length;
+  $("bTeacher").textContent = yes.some(m=>m.id===TEACHER) ? "★ 担任 やなぎ先生" : "";
+  const bn = $("bNames"); bn.innerHTML = "";
+  if(!yes.length) bn.innerHTML = '<span style="grid-column:1/-1">まだいません</span>';
+  students.forEach(m=>{ const sp=document.createElement("span"); sp.textContent=m.oc.replace(/（幹事）/,""); bn.appendChild(sp); });
+  $("result").classList.add("open");
+};
+document.querySelectorAll(".styleSw button").forEach(b=>b.onclick=()=>{
+  const r=$("result"); r.classList.remove("v-board","v-album"); r.classList.add("v-"+b.dataset.s);
+  document.querySelectorAll(".styleSw button").forEach(x=>x.classList.toggle("on",x===b));
+});
+$("resultClose").onclick = ()=> $("result").classList.remove("open");
+
+let resetArmed=null;
+$("resetBtn").onclick = ()=>{
+  const b=$("resetBtn");
+  if(!resetArmed){
+    b.textContent="もう一度で全消去"; b.style.background="#c94a4a"; b.style.color="#fff"; b.style.borderColor="#c94a4a";
+    resetArmed=setTimeout(()=>{ resetArmed=null; b.textContent="リセット"; b.style.cssText=""; },3000);
+    return;
+  }
+  clearTimeout(resetArmed); resetArmed=null;
+  state={ans:{},order:[]}; save(); render();
+  b.textContent="消しました"; b.style.cssText="";
+  setTimeout(()=>b.textContent="リセット",1500);
+};
+
+function renderShops(n){
+  const sh = $("shops"); sh.innerHTML = "";
+  const fit = s => n>=s.min && n<=s.max;
+  const list = n ? [...SHOPS].sort((x,y)=>fit(y)-fit(x)) : SHOPS;
+  $("shopHead").textContent = n ? `出席${n}名ならこのあたり` : "出席者が決まると、人数に合うお店が上に来ます";
+  list.forEach(s=>{
+    const d = document.createElement("div"); d.className="shop"+(n&&fit(s)?" fit":"");
+    const map = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.q)}&query_place_id=${s.pid}`;
+    d.innerHTML = `<div class="sh"><h3></h3><span class="sz"></span></div><p></p><div class="acts"><button class="tel" type="button"></button><a href="${map}" target="_blank" rel="noopener">地図</a></div>`;
+    d.querySelector("h3").textContent = s.n; d.querySelector("p").textContent = s.d;
+    const tb = d.querySelector(".tel");
+    tb.textContent = "📞 "+s.tel;
+    tb.onclick = async ()=>{
+      let ok=false;
+      try{ await navigator.clipboard.writeText(s.tel); ok=true; }catch(e){
+        try{ const t=document.createElement("textarea"); t.value=s.tel; document.body.appendChild(t); t.select(); ok=document.execCommand("copy"); t.remove(); }catch(_){}
+      }
+      tb.textContent = ok ? "コピーしました" : s.tel;
+      setTimeout(()=>tb.textContent="📞 "+s.tel, 1800);
+    };
+    d.querySelector(".sz").textContent = (n&&fit(s)?"おすすめ・":"")+s.size;
+    sh.appendChild(d);
+  });
+}
+render();
+</script>
+</body>
+</html>
